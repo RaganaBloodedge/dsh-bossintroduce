@@ -579,6 +579,26 @@ if (!existsSync(join(ROOT, 'package.json'))) {
   assert('参数 DSL 里没有 required: false', !/required:\s*false/.test(src));
   // 输出 schema 必须 as const，否则 'object' 被推宽成 string，O 塌成 never
   assert('输出 schema 用了 as const（否则 O 塌成 never）', /as const;/.test(src));
+
+  // cordis 4 硬校验：apply 里访问 ctx.<service> 的属性前，必须先在 inject 声明那个服务，
+  // 否则插件激活直接抛 `cannot get property "<service>" without inject`，整插件不生效。
+  // 0.1.2 的线上故障就是这么来的（用了 systemPrompt 却只 inject 了 tools）。
+  // 注意：即使走 `(ctx as unknown as {...}).systemPrompt` 这种 cast 访问，也照样要声明。
+  const declared = ((src.match(/export const inject = \[([^\]]*)\]/) ?? [, ''])[1] ?? '')
+    .split(',').map((s) => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+  const accessed = [...new Set(
+    [...src.matchAll(/\bctx\.([A-Za-z_$][\w$]*)/g)].map((m) => m[1]),
+  )].filter((k) => !['effect', 'plugin', 'logger', 'on', 'emit', 'inject'].includes(k));
+  const undeclared = accessed.filter((k) => !declared.includes(k));
+  assert('ctx.<service> 访问都在 inject 里声明（cordis 4 硬校验）',
+    undeclared.length === 0,
+    `未声明：${undeclared.join(' / ')}；inject=[${declared.join(', ')}]`);
+  // 同一坑的另一半：服务名可能以 cast 形式出现（`as {...}`），ctx.<x> 那条正则扫不到，
+  // 所以对已知服务名再直视一次 —— 出现在源码里就必须出现在 inject 里。
+  for (const svc of ['systemPrompt', 'tools']) {
+    if (!new RegExp(`\\b${svc}\\b`).test(src.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, ''))) continue;
+    assert(`用到 ${svc} 就必须在 inject 里声明`, declared.includes(svc), `inject=[${declared.join(', ')}]`);
+  }
   // Electron 下 process.execPath 不是 Node，必须带 ELECTRON_RUN_AS_NODE
   assert('起了带 ELECTRON_RUN_AS_NODE 的兜底', /ELECTRON_RUN_AS_NODE/.test(src));
   // 发送权：只有 boss_say 能点到发送，且它必须先过 boss_guard（护栏是外部命令）
