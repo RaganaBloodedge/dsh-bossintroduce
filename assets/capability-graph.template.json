@@ -1,0 +1,103 @@
+{
+  "schema": "capability-graph/v2",
+  "built_at": "YYYY-MM-DD",
+  "owner": "",
+  "_howto": [
+    "这是能力图谱模板 —— 整份自我介绍系统的唯一事实源，后面所有『生成』都只能从这里取事实。",
+    "用法：node scripts/init.mjs 会把它复制到用户数据目录（默认 ~/.auto-introduce/data/capability-graph.json），",
+    "然后按 SKILL.md §初始化引导 把简历/仓库/自述抽成下面的五部分，填完让用户逐项确认。",
+    "字段形状参考本文件末尾的 _example —— 它只是形状示范，不是事实，别照抄进正文。",
+    "⚠️ 每条事实都要带 jd_hits（这条事实能回应的 JD 关键词）—— 它是『点名』能力的实现基础，宁多勿缺。"
+  ],
+  "sources": {
+    "resume": "",
+    "resume_raw": "",
+    "links": [],
+    "resume_docs": []
+  },
+  "identity": {
+    "name": "",
+    "gender_age": "",
+    "phone": "",
+    "email": "",
+    "homepage": "",
+    "graduation": "",
+    "note": "homepage 建议填公开主页（如 GitHub）——它是最强的可验证信号，也是所有未上简历项目的入口；留空则不做『可验证入口』检查"
+  },
+  "education": [],
+  "honors": {
+    "items": [],
+    "jd_hits": [],
+    "note": ""
+  },
+  "experience": [],
+  "projects": [],
+  "skills": [],
+  "global_blacklist": [
+    "**业绩数字一律不写**（铁律 1）：提速倍数、测试条数、吞吐量、百分比、方法数、毫秒数",
+    "**长度超预算即判生成失败**（铁律 3）"
+  ],
+  "writing_rules": {
+    "number_policy": "no_metrics —— 只允许时间与身份；院校背书类数字可例外",
+    "number_whitelist": [],
+    "must_include": [
+      "JD 头号要求的原词",
+      "公开主页链接"
+    ],
+    "structure": [],
+    "budget": {
+      "resume_only": {
+        "min_chars": 120,
+        "max_chars": 200,
+        "target_chars": [120, 160],
+        "max_sentences": 4,
+        "_status": "min/max_chars 是硬失败闸门；target_chars 是铁律目标区间（超出只 WARN）"
+      },
+      "with_offresume": {
+        "min_chars": 150,
+        "max_chars": 210,
+        "max_sentences": 5,
+        "_status": "引用了 on_resume=false 的项目时用（要多给『链接 + 一句介绍』，必然更长）"
+      }
+    },
+    "focus_aliases": {}
+  },
+  "_example": {
+    "_note": "下面是**形状示范**（虚构人物，不是任何真实的人）—— 照这个结构写自己的条目即可。",
+    "experience": [
+      {
+        "id": "例子：某段实习",
+        "org": "某某公司",
+        "role": "算法工程实习生",
+        "period": "2025.09 – 2026.05",
+        "one_liner": "一句话说清做了什么",
+        "highlights": ["亮点一（写清技术动作，不写业绩数字）"],
+        "jd_hits": ["RAG", "检索", "知识库", "Agent"],
+        "blacklist": ["用引号标出**不许出现**的字面词，且引号前 10 字内要有否定词，例：写「参与」，不写「独立负责」"]
+      }
+    ],
+    "projects": [
+      {
+        "id": "example-project",
+        "on_resume": true,
+        "maturity": "可用 / 开发中",
+        "visibility": "public",
+        "tier": 1,
+        "name": "项目名（一句话副标题）",
+        "label_allowed": [],
+        "stack": ["C++20", "Python"],
+        "link": "github.com/<user>/<repo>",
+        "one_liner": "一句话说清它是什么、你做了什么",
+        "highlights": ["亮点一", "亮点二"],
+        "jd_hits": ["推理", "C++", "量化"],
+        "blacklist": [],
+        "focus_aliases": [],
+        "_rule": "on_resume 只表示『在不在简历上』，不是使用权限；visibility=private（无公开链接）⇒ 不可用，护栏直接拒"
+      }
+    ],
+    "writing_rules_focus_aliases": {
+      "example-project": ["项目简称"],
+      "_rule": "护栏靠这张表认简称；不写的话文案里的简称会被判成『编造事实』"
+    }
+  }
+}
