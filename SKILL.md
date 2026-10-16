@@ -242,7 +242,8 @@ state → [若 LOGIN：让用户登录 + wait-login]
 enter → pick --label "<意向标签>" → read → 判断
    ├ 不匹配 → next-card → read → …（逐张往前看）
    └ 匹配   → 取 JD 头号要求 → 从能力图谱选一条最相关的事实当主攻
-              → 写 120–160 字文案 → 过 guard.py（退出码 0 才算产出）
+              → 按图谱口径写文案（形式/语气/长度见 references/02；先读 profile.md 的「文案语气与长度」）
+              → 过 guard.py（退出码 0 才算产出）
               → contact → say <文案>（填入并发送；OK 里会回报「输入框已清空 + 我方消息已落进会话」）
               → back --label "<意向标签>" → read → 下一条
 ```

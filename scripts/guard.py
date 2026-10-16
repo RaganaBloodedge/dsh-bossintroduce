@@ -31,7 +31,8 @@ guard.py —— 自我介绍文案护栏（DESIGN-SPEC §4.3 的可执行版）
   --require <term>     必须出现的点名词（JD 头号要求的原词），可重复
   --focus <id>         本条的主攻事实 id（能力图谱里的 project/experience id）
   --budget resume|extra
-                       resume = 默认预算（铁律 3：120–160 字目标，闸门 120–200，≤4 句）
+                       resume = 默认预算（字数/句数上限来自图谱 writing_rules.budget；
+                       图谱没写时用引擎默认 120–200 字 / ≤4 句）
                        extra  = 引用了未上简历项目时的放宽预算（150–210 字，≤5 句）
                        两档的边界都可由图谱 writing_rules.budget 覆盖
   --offresume <id>     用到的未上简历仓库 id，可重复；每个都必须带自己的链接

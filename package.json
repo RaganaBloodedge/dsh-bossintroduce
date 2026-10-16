@@ -1,6 +1,6 @@
 {
   "name": "dsh-bossintroduce",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "DeepSeek Harness 插件：在 Boss 直聘求职者侧浏览岗位，为每条 JD 生成只属于它的自我介绍并发给 HR（可见浏览器 + CDP 状态机 + 文案护栏）",
   "type": "module",
   "license": "MIT",

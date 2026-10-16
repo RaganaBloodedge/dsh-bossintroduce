@@ -430,8 +430,12 @@ if (!py) {
     const good =
       `我看到这个岗位在找相关方向的工程师，和我的方向很贴：` +
       `${EXAMPLES.focusName} 是我从零实现的系统，核心部分全部自己写，` +
-      `并做了完整的测试与验证。我是海外高校计算机硕士，2026 年 7 月毕业。` +
-      `代码在 ${HOME_LINK}。`;
+      `并做了完整的测试与验证。从模块划分到接口设计，再到每条异常路径的处理，` +
+      `都是我一行一行推敲出来的；我也很清楚它在什么场景下会吃力、边界在哪里，` +
+      `不会把话说满。如果您想了解其中的取舍与踩过的坑，我随时可以补充说明，` +
+      `也很愿意按您的材料要求逐条交代。` +
+      `我是海外高校计算机硕士，2026 年 7 月毕业，主攻底层实现与工程落地。` +
+      `代码在 ${HOME_LINK}，欢迎您过目，也真诚期待有机会和您当面细聊请教。`;
     const base = ['--require', EXAMPLES.focusName.slice(0, 2), '--focus', EXAMPLES.focus];
 
     {
@@ -456,7 +460,8 @@ if (!py) {
       assert('点名词缺失 → FAIL', r.code === 1 && r.out.includes('点名词'), `code=${r.code}`);
     }
     {
-      const r = G(['--text', good.replace(`代码在 ${HOME_LINK}。`, ''), ...base]);
+      // 去掉主页这个「可验证入口」（用切分而非整句替换 —— 句子的措辞会随口径调整）
+      const r = G(['--text', good.split(HOME_LINK).join('项目代码'), ...base]);
       assert('缺主页 → FAIL（可验证入口）', r.code === 1 && r.out.includes('可验证入口'), `code=${r.code}`);
     }
     {

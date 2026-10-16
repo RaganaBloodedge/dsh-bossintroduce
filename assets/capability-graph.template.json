@@ -45,6 +45,12 @@
       "公开主页链接"
     ],
     "structure": [],
+    "tone": {
+      "opening": "",
+      "style": "",
+      "form": "招聘站内的聊天消息体 —— 不是信件：不写「此致/敬礼」、不写落款签名、不写「冒昧来信」、不用首行缩进",
+      "_status": "可选。opening=固定开头（例：尊敬的HR）；style=语气（例：敬语、诚恳、明确表达意愿）。留空则只按 budget 卡长度"
+    },
     "budget": {
       "resume_only": {
         "min_chars": 120,
