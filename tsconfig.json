@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": false,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+
+    // 源码要同时满足两个加载器：dsh 本地开发时由 Node 直接剥类型加载 src/index.ts，
+    // 装进 node_modules 后加载 dist/index.js。erasableSyntaxOnly 保证前者成立的写法
+    // （enum / namespace / 参数属性这些需要真编译的语法一律不许出现）。
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src/**/*.ts"]
+}

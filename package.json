@@ -1,0 +1,76 @@
+{
+  "name": "dsh-bossintroduce",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 插件：在 Boss 直聘求职者侧浏览岗位，为每条 JD 生成只属于它的自我介绍并发给 HR（可见浏览器 + CDP 状态机 + 文案护栏）",
+  "type": "module",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "scripts",
+    "references",
+    "assets",
+    "SKILL.md",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc",
+    "prepublishOnly": "npm run build",
+    "selftest": "node scripts/selftest.mjs"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek-harness-plugin",
+    "boss-zhipin",
+    "zhipin",
+    "job-hunting",
+    "job-application",
+    "resume",
+    "cdp",
+    "browser-automation",
+    "agent-tools",
+    "skill"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaganaBloodedge/dsh-bossintroduce.git"
+  },
+  "homepage": "https://github.com/RaganaBloodedge/dsh-bossintroduce#readme",
+  "bugs": {
+    "url": "https://github.com/RaganaBloodedge/dsh-bossintroduce/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "tag": "latest"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.4",
+    "@deepseek-ai/dsh-tools": "^0.1.7-rc.2 || ^0.2.0-rc.1"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.4",
+    "@deepseek-ai/dsh-tools": "0.2.0-rc.2",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22.6"
+  }
+}

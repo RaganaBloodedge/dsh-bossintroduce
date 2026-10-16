@@ -1,0 +1,20 @@
+# 统一行尾：仓库内一律 LF，检出时按平台还原。
+# 在 Windows 上开发时工作区默认是 CRLF，而 shell 脚本带 CRLF 会让 WSL/Linux 报
+# `bad interpreter: /usr/bin/env bash^M` —— 只在换平台时才暴露，所以这里钉死。
+* text=auto
+
+*.sh   text eol=lf
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.ts   text eol=lf
+*.py   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.md   text eol=lf
+
+# 二进制
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
