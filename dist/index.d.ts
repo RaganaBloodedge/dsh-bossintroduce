@@ -1,7 +1,12 @@
 import type { Context } from '@deepseek-ai/cordis';
 /** 插件名（与 npm 包名一致）。 */
 export declare const name = "dsh-bossintroduce";
-/** 依赖的服务槽：框架会先备好 ctx.tools，再调用 apply。 */
+/**
+ * 依赖的服务槽。cordis 4 会强制校验：apply 里访问 ctx.<service> 前必须在这里声明，
+ * 否则激活即抛 `cannot get property "<service>" without inject`。
+ * systemPrompt 不是可选服务 —— dsh 桌面端总有它（dsh-tools 自身也依赖它），
+ * 所以放心声明为必需；换来的是 ctx.systemPrompt 可以直接访问。
+ */
 export declare const inject: string[];
 export interface Config {
     /** 数据根目录；留空 = ~/.auto-introduce（等价于环境变量 AI_HOME） */

@@ -31,8 +31,13 @@ import { defineTool } from '@deepseek-ai/dsh-tools';
 /** 插件名（与 npm 包名一致）。 */
 export const name = 'dsh-bossintroduce';
 
-/** 依赖的服务槽：框架会先备好 ctx.tools，再调用 apply。 */
-export const inject = ['tools'];
+/**
+ * 依赖的服务槽。cordis 4 会强制校验：apply 里访问 ctx.<service> 前必须在这里声明，
+ * 否则激活即抛 `cannot get property "<service>" without inject`。
+ * systemPrompt 不是可选服务 —— dsh 桌面端总有它（dsh-tools 自身也依赖它），
+ * 所以放心声明为必需；换来的是 ctx.systemPrompt 可以直接访问。
+ */
+export const inject = ['tools', 'systemPrompt'];
 
 /**
  * 包根目录。dist/index.js 与 src/index.ts 都在根目录下一层，所以取两次 dirname
@@ -376,7 +381,8 @@ export function apply(ctx: Context, config: Config = {}): void {
   const c = makeCtx(config);
 
   // ── 系统提示词：告诉模型这套工具的正确用法与红线 ─────────────────────
-  // 服务缺失时只是少一节说明，工具照常可用，所以不用 inject 强制依赖它。
+  // systemPrompt 已在 inject 里声明（cordis 4 不声明就访问会直接抛错），
+  // 此处 cast 只是因为泛型 Context 类型没有带上这个属性。
   const sp = (ctx as unknown as { systemPrompt?: { section?: (s: unknown) => () => void } }).systemPrompt;
   if (typeof sp?.section === 'function') {
     ctx.effect(() =>
