@@ -1,0 +1,20 @@
+# 把 dsh-bossintroduce 挂进一个 DSH profile。
+# 安装后由插件管理器把下面这条 insert 行自动写进 profile 的 cordis.patch.yml，
+# 因此用户不需要手写任何配置；行里的 name 是包名，从 profile 的 node_modules 解析。
+#
+# 手工核对：dsh --profile <profile> --dump-config   （出现本插件的层即已挂载）
+# 顶层必须是「patch 操作序列」，写成裸 `insert:` 映射会被静默忽略。
+- insert:
+    - id: boss-introduce
+      name: dsh-bossintroduce
+      config:
+        # 以下全部留空 = 走默认值。个人数据落 ~/.auto-introduce/data，
+        # 浏览器登录态落 ~/.auto-introduce/edge-profile。
+        aiHome: null            # 数据根目录，等价于环境变量 AI_HOME
+        dataDir: null           # 直接指定数据目录，等价于 AI_DATA_DIR
+        cdpEndpoint: null       # 默认 http://127.0.0.1:9222
+        browserProfile: null    # 默认 <aiHome>/edge-profile
+        gapMs: null             # 每次操作后的静默毫秒数，默认 2000（不要调小）
+        browserPath: null       # msedge.exe / chrome.exe 绝对路径，留空自动发现
+        nodePath: null          # Node 绝对路径，留空自动发现
+        pythonPath: null        # 文案护栏要用的 Python，留空自动发现

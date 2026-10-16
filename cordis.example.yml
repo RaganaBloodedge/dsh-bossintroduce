@@ -1,0 +1,20 @@
+# dsh-bossintroduce —— 本地挂载清单（开发用，不进 npm 包）
+#
+# 只组合配置、不启动（最快自检）：
+#   dsh --profile web --patch "<本文件的绝对路径>" --dump-config
+# 真启动：
+#   dsh --profile web --patch "<本文件的绝对路径>"
+#
+# 硬规矩（都是实测踩出来的，违反不报错、只是不生效）：
+#   1. 顶层必须是 patch 数组，条目一律包在 `insert:` 里。
+#      写成裸 `- id: x` + `name:` 会被判 `patch: entry "x" not found` 直接跳过。
+#   2. name 用本机绝对路径或包名；相对路径静默失败。
+#   3. 用绝对路径挂载时入口在 node_modules 之外，Node 找不到 @deepseek-ai/*，
+#      所以要先在本仓库跑一次 npm install 让依赖就位。
+
+- insert:
+    - id: boss-introduce
+      name: <本仓库的绝对路径>/src/index.ts
+      config:
+        cdpEndpoint: http://127.0.0.1:9222
+        gapMs: 2000
