@@ -216,6 +216,30 @@ node scripts/flow.mjs where
 
 ---
 
+## 发版（维护者）
+
+```bash
+npm version patch --no-git-tag-version    # 或 minor / major
+git commit -am "chore(release): x.y.z"
+npm publish --registry=https://registry.npmjs.org/
+```
+
+三件容易踩的事：
+
+- **本机默认 registry 往往是镜像**（`registry.npmmirror.com`），它只读、不能发布 —— 必须显式带
+  `--registry=https://registry.npmjs.org/`。
+- **新包的第一个版本不会直接上线。** npm 2026 年起启用了暂存发布（staged publishing）：首次
+  `publish` 只是把版本提交到暂存区，registry 上会出现一个 `0.0.0-stage` 占位版，真实版本要到
+  npmjs.com 的 **Staged Packages** 里点 Approve 才上线（这一步需要 2FA）。**同包的后续版本直接
+  上线、不再进暂存。**
+- **发布凭证。** npm 现在强制「账号开着 2FA」或「一个勾了 Bypass 2FA 的 granular access token」
+  才能发布 —— 关掉 2FA 反而会拿到
+  `403 Two-factor authentication or granular access token with bypass 2fa enabled is required`。
+  需要非交互发布时，建一个 bypass-2FA 的 granular token（Packages and scopes 给 Read and write），
+  临时写进**项目内** `.npmrc`（已在 `.gitignore` 里），发完即删。
+
+---
+
 ## License
 
 MIT © 2026 Li Yichen (李依宸)
